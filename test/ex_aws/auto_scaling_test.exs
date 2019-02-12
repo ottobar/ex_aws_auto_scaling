@@ -2,7 +2,9 @@ defmodule ExAws.AutoScalingTest do
   use ExUnit.Case
   doctest ExAws.AutoScaling
 
-  test "greets the world" do
-    assert ExAws.AutoScaling.hello() == :world
+  test "describe_auto_scaling_instances" do
+    expected = %{}
+    actual = ExAws.AutoScaling.describe_auto_scaling_instances()
+    assert actual == expected
   end
 end
