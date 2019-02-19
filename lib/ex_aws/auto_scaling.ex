@@ -36,6 +36,33 @@ defmodule ExAws.AutoScaling do
     opts |> build_request(:describe_auto_scaling_instances)
   end
 
+  @doc """
+  Records a heartbeat for the lifecycle action associated with the specified token or instance.
+
+  Doc: https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_RecordLifecycleActionHeartbeat.html
+  """
+  @type record_lifecycle_action_heartbeat_opts :: [
+          instance_id: binary,
+          lifecycle_action_token: binary
+        ]
+  @spec record_lifecycle_action_heartbeat(
+          auto_scaling_group_name :: binary,
+          lifecycle_hook_name :: binary
+        ) :: ExAws.Operation.Query.t()
+  @spec record_lifecycle_action_heartbeat(
+          auto_scaling_group_name :: binary,
+          lifecycle_hook_name :: binary,
+          opts :: record_lifecycle_action_heartbeat_opts
+        ) :: ExAws.Operation.Query.t()
+  def record_lifecycle_action_heartbeat(auto_scaling_group_name, lifecycle_hook_name, opts \\ []) do
+    [
+      {"AutoScalingGroupName", auto_scaling_group_name},
+      {"LifecycleHookName", lifecycle_hook_name}
+      | opts
+    ]
+    |> build_request(:record_lifecycle_action_heartbeat)
+  end
+
   defp build_request(opts, action) do
     opts
     |> Enum.flat_map(&format_param/1)
