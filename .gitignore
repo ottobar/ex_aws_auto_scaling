@@ -23,7 +23,10 @@ erl_crash.dump
 ex_aws_auto_scaling-*.tar
 
 # asdf local versions
-.tool-versions
+/.tool-versions
+
+# VS Code stuff
+/.vscode
 
 # ElixirLS build artifacts
 /.elixir_ls

@@ -1,23 +1,24 @@
 # ExAws.AutoScaling
 
-**TODO: Add description**
+Service module for [ex_aws](https://hex.pm/packages/ex_aws)
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `ex_aws_auto_scaling` to your list of dependencies in `mix.exs`:
+The package can be installed by adding `ex_aws_auto_scaling` via `:git` to your
+list of dependencies in `mix.exs` along with `:ex_aws` as well as JSON, XML and
+HTTP client packages.
 
 ```elixir
 def deps do
   [
-    {:ex_aws_auto_scaling, "~> 0.1.0"}
+    {:ex_aws, "~> 2.0"},
+    {:ex_aws_ecs, git: "https://github.com/ottobar/ex_aws_auto_scaling.git"},
+    {:hackney, "~> 1.15"},
+    {:poison, "~> 3.1"},
+    {:sweet_xml, "~> 0.6"}
   ]
 end
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/ex_aws_auto_scaling](https://hexdocs.pm/ex_aws_auto_scaling).
 
 ## License
 
