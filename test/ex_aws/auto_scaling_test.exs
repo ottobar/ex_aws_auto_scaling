@@ -121,4 +121,94 @@ defmodule ExAws.AutoScalingTest do
 
     assert actual == expected
   end
+
+  test "complete_lifecycle_action with no options" do
+    auto_scaling_group_name = "my-asg"
+    lifecycle_hook_name = "my-hook"
+
+    expected = %ExAws.Operation.Query{
+      action: :complete_lifecycle_action,
+      params: %{
+        "AutoScalingGroupName" => auto_scaling_group_name,
+        "LifecycleHookName" => lifecycle_hook_name,
+        "LifecycleActionResult" => "CONTINUE",
+        "Action" => "CompleteLifecycleAction",
+        "Version" => "2011-01-01"
+      },
+      parser: &ExAws.AutoScaling.Parsers.parse/2,
+      path: "/",
+      service: :autoscaling
+    }
+
+    actual =
+      ExAws.AutoScaling.complete_lifecycle_action(
+        auto_scaling_group_name,
+        lifecycle_hook_name,
+        :continue
+      )
+
+    assert actual == expected
+  end
+
+  test "complete_lifecycle_action with instance id" do
+    auto_scaling_group_name = "my-asg"
+    lifecycle_hook_name = "my-hook"
+    instance_id = "i-0598c7d356eba48d7"
+
+    expected = %ExAws.Operation.Query{
+      action: :complete_lifecycle_action,
+      params: %{
+        "AutoScalingGroupName" => auto_scaling_group_name,
+        "LifecycleHookName" => lifecycle_hook_name,
+        "LifecycleActionResult" => "CONTINUE",
+        "InstanceId" => instance_id,
+        "Action" => "CompleteLifecycleAction",
+        "Version" => "2011-01-01"
+      },
+      parser: &ExAws.AutoScaling.Parsers.parse/2,
+      path: "/",
+      service: :autoscaling
+    }
+
+    actual =
+      ExAws.AutoScaling.complete_lifecycle_action(
+        auto_scaling_group_name,
+        lifecycle_hook_name,
+        :continue,
+        instance_id: instance_id
+      )
+
+    assert actual == expected
+  end
+
+  test "complete_lifecycle_action with lifecycle action token" do
+    auto_scaling_group_name = "my-asg"
+    lifecycle_hook_name = "my-hook"
+    lifecycle_action_token = "71514b9d-6a40-4b26-8523-05e7ee35fa40"
+
+    expected = %ExAws.Operation.Query{
+      action: :complete_lifecycle_action,
+      params: %{
+        "AutoScalingGroupName" => auto_scaling_group_name,
+        "LifecycleHookName" => lifecycle_hook_name,
+        "LifecycleActionResult" => "CONTINUE",
+        "LifecycleActionToken" => lifecycle_action_token,
+        "Action" => "CompleteLifecycleAction",
+        "Version" => "2011-01-01"
+      },
+      parser: &ExAws.AutoScaling.Parsers.parse/2,
+      path: "/",
+      service: :autoscaling
+    }
+
+    actual =
+      ExAws.AutoScaling.complete_lifecycle_action(
+        auto_scaling_group_name,
+        lifecycle_hook_name,
+        :continue,
+        lifecycle_action_token: lifecycle_action_token
+      )
+
+    assert actual == expected
+  end
 end

@@ -19,6 +19,48 @@ defmodule ExAws.AutoScaling do
 
   @version "2011-01-01"
 
+  @type lifecycle_action_opts :: [
+          instance_id: binary,
+          lifecycle_action_token: binary
+        ]
+
+  @doc """
+  Completes the lifecycle action for the specified token or instance with the specified result.
+
+  Doc: https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CompleteLifecycleAction.html
+  """
+  @type lifecycle_action_result :: :continue | :abandon
+  @spec complete_lifecycle_action(
+          auto_scaling_group_name :: binary,
+          lifecycle_hook_name :: binary,
+          lifecycle_action_result :: lifecycle_action_result
+        ) :: ExAws.Operation.Query.t()
+  @spec complete_lifecycle_action(
+          auto_scaling_group_name :: binary,
+          lifecycle_hook_name :: binary,
+          lifecycle_action_result :: lifecycle_action_result,
+          opts :: lifecycle_action_opts
+        ) :: ExAws.Operation.Query.t()
+  def complete_lifecycle_action(
+        auto_scaling_group_name,
+        lifecycle_hook_name,
+        lifecycle_action_result,
+        opts \\ []
+      ) do
+    lifecycle_action_result_name =
+      lifecycle_action_result
+      |> Atom.to_string()
+      |> String.upcase()
+
+    [
+      {"AutoScalingGroupName", auto_scaling_group_name},
+      {"LifecycleHookName", lifecycle_hook_name},
+      {"LifecycleActionResult", lifecycle_action_result_name}
+      | opts
+    ]
+    |> build_request(:complete_lifecycle_action)
+  end
+
   @doc """
   Describes one or more Auto Scaling instances.
 
@@ -41,10 +83,6 @@ defmodule ExAws.AutoScaling do
 
   Doc: https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_RecordLifecycleActionHeartbeat.html
   """
-  @type record_lifecycle_action_heartbeat_opts :: [
-          instance_id: binary,
-          lifecycle_action_token: binary
-        ]
   @spec record_lifecycle_action_heartbeat(
           auto_scaling_group_name :: binary,
           lifecycle_hook_name :: binary
@@ -52,7 +90,7 @@ defmodule ExAws.AutoScaling do
   @spec record_lifecycle_action_heartbeat(
           auto_scaling_group_name :: binary,
           lifecycle_hook_name :: binary,
-          opts :: record_lifecycle_action_heartbeat_opts
+          opts :: lifecycle_action_opts
         ) :: ExAws.Operation.Query.t()
   def record_lifecycle_action_heartbeat(auto_scaling_group_name, lifecycle_hook_name, opts \\ []) do
     [

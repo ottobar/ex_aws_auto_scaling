@@ -2,6 +2,16 @@ if Code.ensure_loaded?(SweetXml) do
   defmodule ExAws.AutoScaling.Parsers do
     use ExAws.Operation.Query.Parser
 
+    def parse({:ok, %{body: xml} = resp}, :complete_lifecycle_action) do
+      parsed_body =
+        xml
+        |> SweetXml.xpath(~x"//CompleteLifecycleActionResponse",
+          request_id: request_id_xpath()
+        )
+
+      {:ok, Map.put(resp, :body, parsed_body)}
+    end
+
     def parse({:ok, %{body: xml} = resp}, :describe_auto_scaling_instances) do
       parsed_body =
         xml
